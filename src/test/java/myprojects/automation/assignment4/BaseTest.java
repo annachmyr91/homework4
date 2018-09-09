@@ -7,10 +7,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -21,8 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class BaseTest {
     protected EventFiringWebDriver driver;
-   protected WebDriverWait wait;
-    // protected GeneralActions generalActions;
+    protected WebDriverWait wait;
 
     /**
      * @param browser Driver type to use in tests.
@@ -69,11 +65,12 @@ public abstract class BaseTest {
      * Driver type is based on passed parameters to the automation project,
      * creates {@link ChromeDriver} instance by default.
      */
-    @BeforeClass
+    @BeforeTest
     @Parameters("browser")
 
     // TODO use parameters from pom.xml to pass required browser type
-    public void setUp(@Optional("chrome") String browser) {
+   // public void setUp(@Optional("chrome") String browser) {
+    public void setUp(String browser) {
         driver = new EventFiringWebDriver(getDriver(browser));
         driver.register(new EventHandler());
 
@@ -82,7 +79,6 @@ public abstract class BaseTest {
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, 15);
 
-        //generalActions = new GeneralActions(driver);
     }
 
     /**
